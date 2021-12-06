@@ -12,7 +12,10 @@
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
         <li class="nav-item ${activePage eq 'Cars' ? 'active' : ''}">
-            <a class="nav-link" href="${pageContext.request.contextPath}/Cars">Cars</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/cars">Cars</a>
+        </li>
+         <li class="nav-item ${activePage eq 'addCar' ? 'active' : ''}">
+            <a class="nav-link" href="${pageContext.request.contextPath}/addCar.jsp">Add Cars</a>
         </li>
         
          <li class="nav-item ${activePage eq 'Cars' ? 'active' : ''}">
