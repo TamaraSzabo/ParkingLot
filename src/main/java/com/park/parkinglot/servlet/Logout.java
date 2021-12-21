@@ -82,7 +82,7 @@ public class Logout extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Logout v1.0";
     }// </editor-fold>
 
 }

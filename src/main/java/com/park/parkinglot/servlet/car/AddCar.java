@@ -2,11 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.park.parkinglot.servlet;
+package com.park.parkinglot.servlet.car;
 
+import com.park.parkinglot.common.UserDetails;
+import com.park.parkinglot.ejb.CarBean;
+import com.park.parkinglot.ejb.UserBean;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.HttpConstraint;
+import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +23,14 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author asus
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
-public class Login extends HttpServlet {
+@ServletSecurity(value = @HttpConstraint(rolesAllowed = { "Adminrole" }))
+@WebServlet(name = "AddCar", urlPatterns = {"/AddCar"})
+public class AddCar extends HttpServlet {
+    
+    @Inject
+    UserBean userBean;
+    @Inject
+    CarBean carBean;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +49,10 @@ public class Login extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Login</title>");            
+            out.println("<title>Servlet AddCar</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Login at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddCar at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,7 +70,9 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+        List<UserDetails> user = userBean.getAllUsers();
+        request.setAttribute("users", user);
+        request.getRequestDispatcher("/WEB-INF/pages/addCar.jspp").forward(request, response);
     }
 
     /**
@@ -71,8 +86,13 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       request.setAttribute("message", "Username or password incorrect");
-       request.getRequestDispatcher("/WEB_INF/pages/login.jsp").forward(request, response);
+        String licensePlate = request.getParameter("license_plate");
+        String parkingSpot = request.getParameter("parking_spot");
+        int ownerId = Integer.parseInt(request.getParameter("owner_id"));
+        
+        carBean.createCar(licensePlate, parkingSpot, ownerId);
+        response.sendRedirect(request.getContextPath()+ "/Cars");
+        
     }
 
     /**
@@ -82,7 +102,7 @@ public class Login extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Login v1.0";
+        return "AddCar v1.0";
     }// </editor-fold>
 
 }

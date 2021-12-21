@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.park.parkinglot.servlet;
+package com.park.parkinglot.servlet.car;
 
 import com.park.parkinglot.common.CarDetails;
 import com.park.parkinglot.common.UserDetails;
@@ -13,6 +13,8 @@ import java.io.PrintWriter;
 import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.HttpConstraint;
+import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author asus
  */
+@ServletSecurity(value = @HttpConstraint(rolesAllowed = { "Adminrole" }))
 @WebServlet(name = "EditCar", urlPatterns = {"/EditCar"})
 public class EditCar extends HttpServlet {
     
@@ -106,7 +109,7 @@ public class EditCar extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "EditCar v1.0";
     }// </editor-fold>
 
 }
