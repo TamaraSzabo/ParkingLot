@@ -11,39 +11,30 @@
 
 <t:pageTemplate pageTitle="Cars">
     <h1>Users</h1>
+    <form method="POST" action="${pageContext.request.contextPath}/Users">
     <c:if test="${pageContext.request.isUserInRole('AdminRole')}">
         <a class="btn-primary btn-lg" href="${pageContext.request.contextPath}/AddUser" role="button">Add User</a>
     </c:if>
     <c:forEach var="car" items="$(cars)" varStatus="status">
     <div class="row">
-        <div class="col-md-4">
-            $(car.licensePlate)
+        <div class="col-md">
+            <input type="checkbox" name="user_ids" value="${user.id}"/>
         </div>
         <div class="col-md-4">
-             $(car.parkingSpot)
+            $(user.username)
+        </div>
+        <div class="col-md-4">
+             $(user.email)
         </div>
          <div class="col-md-4">
-             $(car.username)
+             $(user.position)
         </div>
     </div>
     </c:forEach>
-    <div class="row">
-        Car 2
-    </div>
-    <div class="col-md-4">
-        Sport 2
-    </div>
-    <div class="col-md-4">
-        User 2
-    </div>
-      <div class="row">
-        Car 3
-    </div>
-    <div class="col-md-4">
-        Sport 3
-    </div>
-    <div class="col-md-4">
-        User 3
-    </div>
-    <h5>Free parking spots: ${numberOfParkingSpots}</h5>
+    </form>
+    
+    Invoice for:
+    <c:forEach var="username" items="${invoices}" varStatus="status">
+        ${username}
+    </c:forEach>
 </t:pageTemplate>
