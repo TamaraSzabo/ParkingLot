@@ -6,6 +6,7 @@ package com.park.parkinglot.ejb;
 
 import com.park.parkinglot.common.CarDetails;
 import com.park.parkinglot.entity.Car;
+import com.park.parkinglot.entity.Photo;
 import com.park.parkinglot.entity.User;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -89,5 +90,23 @@ public class CarBean {
            em.remove(car);
        }
    }
+   
+   public void AddPhotoToCar(Integer carId, String filename, String fileType, byte[] fileContent){
+       LOG.info("addPhotoToCar");
+       Photo photo = new Photo();
+       photo.setFilename(filename);
+       photo.setFileType(fileType);
+       photo.setFileContent(fileContent);
+       
+       Car car = em.find(Car.class, carId);
+       car.setPhoto(photo);
+       
+       photo.setCar(car);
+       em.persist(photo);
+   }
+
+    public void addPhotoToCar(Integer carId, String fileName, String fileType, byte[] fileContent) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
    
 }
